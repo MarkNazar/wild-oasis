@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { HiEllipsisVertical } from "react-icons/hi2";
 import styled from "styled-components";
 import useOutsideClick from "../hooks/useOutsideClick";
+import { FaBullseye } from "react-icons/fa6";
 
 const Menu = styled.div`
   display: flex;
@@ -86,6 +87,7 @@ const Menus = ({ children }) => {
 const Toggle = ({ id }) => {
   const { close, open, openId, setRectPosition } = useContext(MenusContext);
   const handleClick = (e) => {
+    e.stopPropagation();
     const rect = e.target.closest("button").getBoundingClientRect();
     setRectPosition({
       x: window.innerWidth - rect.width - rect.x,
@@ -105,7 +107,7 @@ const Toggle = ({ id }) => {
 };
 const List = ({ children, id }) => {
   const { openId, rectPosition, close } = useContext(MenusContext);
-  const { ref } = useOutsideClick(close);
+  const { ref } = useOutsideClick(close, false);
   if (openId !== id) return null;
 
   return createPortal(
